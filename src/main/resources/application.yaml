@@ -1,0 +1,12 @@
+server:
+  port: 8080
+  name: e-shop
+spring:
+  datasource:
+    url: jdbc:mysql://localhost/e-shop
+    username: root
+    password: root
+jwt:
+  secret:
+    key: 97087b42ab2e3y4ca3wbdcfg354618dc0671dsnjksahjfkdghildfeu8o9w3756973y5thydrfuw3y5i73trfjksjafhgjkaguyjfgt74t574t3
+  expiration: 3600
