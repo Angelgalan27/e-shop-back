@@ -69,6 +69,15 @@ public class UserServiceImpl implements IUserService {
         if (Objects.isNull(userDTO.getPassword())) {
             throw new BadRequestException(Resource.getMessage("user.password.mandatory"));
         }
+
+        if (Objects.isNull(userDTO.getName())) {
+            throw new BadRequestException(Resource.getMessage("user.name.mandatory"));
+        }
+
+        if (Objects.isNull(userDTO.getEmail())) {
+            throw new BadRequestException(Resource.getMessage("user.email.mandatory"));
+        }
+
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         return userMapper.toModel(
                 userRepository.save(userMapper.toEntity(userDTO))
