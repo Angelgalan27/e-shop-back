@@ -34,6 +34,9 @@ public class User extends AuditoryBaseAbstract {
     @NotNull
     private String password;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
+    private List<UserAddress> addresses = new ArrayList<>();
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "rol_user", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "rol_id"))
     private List<Rol> roles = new ArrayList<>();

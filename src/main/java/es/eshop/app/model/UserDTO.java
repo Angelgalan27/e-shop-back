@@ -1,5 +1,6 @@
 package es.eshop.app.model;
 
+import es.eshop.app.entity.UserAddress;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,6 +18,8 @@ public class UserDTO {
     private String surname;
     private String email;
     private String password;
+    @Builder.Default
+    private List<UserAddressDTO> addresses = new ArrayList<>();
     @Builder.Default
     private List<RolDTO> roles = new ArrayList<>();
 }
