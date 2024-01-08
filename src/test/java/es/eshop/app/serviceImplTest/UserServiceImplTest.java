@@ -2,6 +2,7 @@ package es.eshop.app.serviceImplTest;
 
 import es.eshop.app.entity.User;
 import es.eshop.app.exception.BadRequestException;
+import es.eshop.app.exception.ForbbidenException;
 import es.eshop.app.exception.NotFoundException;
 import es.eshop.app.mapper.IUserMapper;
 import es.eshop.app.model.UserDTO;
@@ -15,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Collections;
@@ -72,7 +74,7 @@ class UserServiceImplTest {
         try {
             userService.getById(ID);
         } catch (NotFoundException e) {
-            assertEquals("El usuario con el id 1 no existe.", e.getMessage());
+            assertEquals("El usuario con el id "+ID+" no existe.", e.getMessage());
         }
     }
 
@@ -128,9 +130,36 @@ class UserServiceImplTest {
         try {
             assertTrue(userService.deleteById(ID));
         } catch (NotFoundException e) {
-            assertEquals("El usuario con el id 1 no existe.", e.getMessage());
+            assertEquals("El usuario con el id "+ID+" no existe.", e.getMessage());
+        }
+    }
+
+    @Test
+    void getByEmailTest() {
+        Mockito.when(userRepository.findByEmail(Mockito.anyString())).thenReturn(getUserOptional());
+        Mockito.when(userMapper.toModel(Mockito.any(User.class))).thenReturn(getUserDto());
+        assertTrue(Objects.nonNull(userService.getByEmail(EMAIL)));
+        Mockito.when(userRepository.findByEmail(Mockito.anyString())).thenReturn(Optional.empty());
+        try {
+            userService.getByEmail(EMAIL);
+        } catch (NotFoundException e) {
+            assertEquals("El usuario con el email "+EMAIL+" no existe.", e.getMessage());
         }
 
+    }
+
+    @Test
+    void authenticate(){
+        Mockito.when(userRepository.findByEmail(Mockito.anyString())).thenReturn(getUserOptional());
+        Mockito.when(passwordEncoder.matches(Mockito.anyString(), Mockito.anyString())).thenReturn(Boolean.TRUE);
+        assertTrue(Objects.nonNull(userService.authenticate(new UsernamePasswordAuthenticationToken(EMAIL, PASS))));
+        Mockito.when(passwordEncoder.matches(Mockito.anyString(), Mockito.anyString())).thenReturn(Boolean.FALSE);
+
+        try {
+            userService.authenticate(new UsernamePasswordAuthenticationToken(EMAIL, PASS));
+        } catch (ForbbidenException e){
+            assertEquals("Error al autenticar el usuario.", e.getMessage());
+        }
     }
 
     private List<User> getListUser() {
