@@ -1,6 +1,5 @@
 package es.eshop.app.model;
 
-import es.eshop.app.entity.UserAddress;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
