@@ -1,6 +1,7 @@
 package es.eshop.app.service.impl;
 
 import es.eshop.app.entity.Category;
+import es.eshop.app.entity.TranslationCategory;
 import es.eshop.app.exception.BadRequestException;
 import es.eshop.app.exception.NotFoundException;
 import es.eshop.app.mapper.ICategoryMapper;
@@ -8,13 +9,14 @@ import es.eshop.app.model.CategoryDTO;
 import es.eshop.app.repository.ICategoryRepository;
 import es.eshop.app.service.ICategoryService;
 import es.eshop.app.util.Resource;
-import org.apache.commons.lang3.StringUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryServiceImpl implements ICategoryService {
 
     private static final  String CATEGORY_NOT_FOUND = "category.not.found";
@@ -23,11 +25,6 @@ public class CategoryServiceImpl implements ICategoryService {
 
     private final ICategoryMapper categoryMapper;
 
-    public CategoryServiceImpl(ICategoryRepository categoryRepository,
-                               ICategoryMapper categoryMapper) {
-        this.categoryRepository = categoryRepository;
-        this.categoryMapper = categoryMapper;
-    }
 
     @Override
     public List<CategoryDTO> getAll() {
@@ -42,17 +39,22 @@ public class CategoryServiceImpl implements ICategoryService {
 
     @Override
     public CategoryDTO save(CategoryDTO categoryDTO) {
-        if (Objects.isNull(categoryDTO.getTranslation()) || categoryDTO.getTranslation().isEmpty()) {
-            throw new BadRequestException(Resource.getMessage("category.translation.mandatory"));
+        if (Objects.isNull(categoryDTO.getName())) {
+            throw new BadRequestException(Resource.getMessage("category.translation.name.mandatory"));
         }
-        categoryDTO.getTranslation().forEach(translation -> {
-            if(StringUtils.isBlank(translation.getName())) {
-                throw new BadRequestException(Resource.getMessage("category.translation.name.mandatory"));
-            }
-        });
-        return categoryMapper.toModel(categoryRepository.save(
-                categoryMapper.toEntity(categoryDTO)
-        ));
+
+        Category category = categoryMapper.toEntity(categoryDTO);
+        List<TranslationCategory> listTranslation = category.getTranslations();
+        category.setTranslations(null);
+
+        final Category categoryDb = categoryRepository.save(category);
+
+        if (Objects.nonNull(listTranslation) && !listTranslation.isEmpty()) {
+            listTranslation.forEach(translation -> translation.setCategory(categoryDb));
+            categoryDb.setTranslations(listTranslation);
+        }
+
+        return categoryMapper.toModel(categoryRepository.save(categoryDb));
     }
 
     @Override
@@ -72,8 +74,9 @@ public class CategoryServiceImpl implements ICategoryService {
     }
 
     private void mergeCategory(CategoryDTO categoryDTO, Category category){
-        if (Objects.nonNull(categoryDTO.getTranslation()) && !categoryDTO.getTranslation().isEmpty()) {
-            category.setTranslations(categoryMapper.toListTranslationCategory(categoryDTO.getTranslation()));
+        if (Objects.nonNull(categoryDTO.getTranslations()) && !categoryDTO.getTranslations().isEmpty()) {
+            category.setTranslations(categoryMapper.toListTranslationCategory(categoryDTO.getTranslations()));
+            category.getTranslations().forEach(translation -> translation.setCategory(category));
         }
         if (Objects.nonNull(categoryDTO.getParentId())) {
             Category parentCategory = categoryRepository.findById(categoryDTO.getParentId())

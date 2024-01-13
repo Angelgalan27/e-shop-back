@@ -9,6 +9,7 @@ import es.eshop.app.model.UserDTO;
 import es.eshop.app.repository.IUserRepository;
 import es.eshop.app.service.IUserService;
 import es.eshop.app.util.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,6 +25,7 @@ import java.util.Objects;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements IUserService {
 
     private final IUserRepository userRepository;
@@ -31,13 +33,6 @@ public class UserServiceImpl implements IUserService {
     private final IUserMapper userMapper;
 
     private final BCryptPasswordEncoder passwordEncoder;
-    public UserServiceImpl(IUserRepository userRepository,
-                           IUserMapper userMapper,
-                           BCryptPasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.userMapper = userMapper;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     /**
      *

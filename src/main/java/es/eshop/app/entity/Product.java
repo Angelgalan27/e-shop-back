@@ -19,10 +19,6 @@ public class Product {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="translation_product_id", nullable = false)
-    private TranslationProduct translationProduct;
-
     @Column(name = "code")
     private String code;
 

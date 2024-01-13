@@ -77,16 +77,7 @@ class CategoryServiceImplTest {
         Mockito.when(categoryMapper.toEntity(Mockito.any(CategoryDTO.class))).thenReturn(getCategory());
         assertTrue(Objects.nonNull(categoryService.save(getCategoryDto())));
         CategoryDTO categoryDTO = getCategoryDto();
-        categoryDTO.setTranslation(null);
-
-        try {
-            categoryService.save(categoryDTO);
-        } catch (BadRequestException e) {
-            assertEquals("Es obligatorio añadir al menos una traducción a la categoría.", e.getMessage());
-        }
-
-        categoryDTO = getCategoryDto();
-        categoryDTO.getTranslation().get(0).setName(null);
+        categoryDTO.setName(null);
 
         try {
             categoryService.save(categoryDTO);
@@ -154,7 +145,8 @@ class CategoryServiceImplTest {
     private CategoryDTO getCategoryDto() {
         return CategoryDTO.builder()
                 .id(ID)
-                .translation(Collections.singletonList(TranslationCategoryDTO.builder()
+                .name(NAME)
+                .translations(Collections.singletonList(TranslationCategoryDTO.builder()
                                 .description(DESCRIPTION)
                                 .name(NAME)
                         .build()))

@@ -9,9 +9,13 @@ import lombok.Data;
 @AllArgsConstructor
 public class TranslationCategoryDTO {
 
+    private Long id;
+
     private Long languageId;
 
     private String languageName;
+
+    private String languageCode;
 
     private String name;
 

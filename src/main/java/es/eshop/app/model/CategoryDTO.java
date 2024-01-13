@@ -16,6 +16,12 @@ public class CategoryDTO {
 
     private Long parentId;
 
+    private String parentName;
+
+    private String name;
+
+    private String description;
+
     @Builder.Default
-    private List<TranslationCategoryDTO> translation = new ArrayList<>();
+    private List<TranslationCategoryDTO> translations = new ArrayList<>();
 }
