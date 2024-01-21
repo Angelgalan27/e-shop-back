@@ -1,6 +1,8 @@
 package es.eshop.app.mapper;
 
+
 import java.util.List;
+
 
 public interface IBaseMapper<M, E> {
 

@@ -22,6 +22,9 @@ public class Product {
     @Column(name = "code")
     private String code;
 
+    @Column(name = "name")
+    private String name;
+
     @Column(name = "part_number")
     private String partNumber;
 
@@ -32,6 +35,6 @@ public class Product {
     @JoinTable(name = "product_file", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "file_id"))
     private List<File> files = new ArrayList<>();
 
-    @OneToMany(mappedBy = "product", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     List<TranslationProduct> translations = new ArrayList<>();
 }

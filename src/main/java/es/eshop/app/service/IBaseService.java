@@ -1,10 +1,10 @@
 package es.eshop.app.service;
 
+import java.util.Collections;
 import java.util.List;
 
 public interface IBaseService<M, ID> {
 
-    List<M> getAll();
 
     M getById(ID id);
 

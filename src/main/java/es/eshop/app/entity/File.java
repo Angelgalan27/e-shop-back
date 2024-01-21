@@ -1,9 +1,11 @@
 package es.eshop.app.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
 @Table(name = "file")
+@Data
 public class File {
 
     @Id

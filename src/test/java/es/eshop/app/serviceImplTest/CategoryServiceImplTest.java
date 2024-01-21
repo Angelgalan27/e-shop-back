@@ -11,8 +11,7 @@ import es.eshop.app.model.TranslationCategoryDTO;
 import es.eshop.app.repository.ICategoryRepository;
 import es.eshop.app.service.ICategoryService;
 import es.eshop.app.service.impl.CategoryServiceImpl;
-import org.aspectj.weaver.ast.Not;
-import org.junit.jupiter.api.Assertions;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
