@@ -1,5 +1,6 @@
 package es.eshop.app.serviceImplTest;
 
+import es.eshop.app.BaseConfigTests;
 import es.eshop.app.entity.Product;
 import es.eshop.app.exception.BadRequestException;
 import es.eshop.app.exception.NotFoundException;
@@ -17,7 +18,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -27,8 +27,9 @@ import java.util.function.Function;
 import static org.mockito.Mockito.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-@SpringBootTest
-class ProductServiceImplTest {
+
+
+class ProductServiceImplTest extends BaseConfigTests {
 
     private final Long ID = 1L;
 

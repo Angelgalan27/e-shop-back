@@ -17,9 +17,11 @@ import es.eshop.app.service.IProductService;
 import es.eshop.app.service.IUserService;
 import es.eshop.app.util.Resource;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -52,9 +54,10 @@ public class OpinionProductServiceImpl implements IOpinionProductService {
 
     @Override
     public OpinionProductDTO update(OpinionProductDTO opinionProductDTO) {
-        return opinionProductMapper.toModel(opinionProductRepository.save(
-                opinionProductMapper.toEntity(opinionProductDTO)
-        ));
+        OpinionProduct opinionProduct = opinionProductRepository.findById(opinionProductDTO.getId())
+                .orElseThrow(() -> new NotFoundException(Resource.getMessage("opinion.product.not.found", opinionProductDTO.getId())));
+        mergeOpinionProduct(opinionProduct, opinionProductDTO);
+        return opinionProductMapper.toModel(opinionProductRepository.save(opinionProduct));
     }
 
     @Override
@@ -80,5 +83,15 @@ public class OpinionProductServiceImpl implements IOpinionProductService {
     @Override
     public List<OpinionProductDTO> getAllByProductId(Long productId) {
         return opinionProductMapper.toListModel(opinionProductRepository.findByProduct(productMapper.toEntity(productService.getById(productId))));
+    }
+
+
+    private void mergeOpinionProduct(OpinionProduct opinionProduct, OpinionProductDTO opinionProductDTO) {
+        if (StringUtils.isNotBlank(opinionProductDTO.getComment())) {
+            opinionProduct.setComment(opinionProductDTO.getComment());
+        }
+        if (Objects.nonNull(opinionProductDTO.getAssessment())) {
+            opinionProduct.setAssessment(opinionProductDTO.getAssessment());
+        }
     }
 }

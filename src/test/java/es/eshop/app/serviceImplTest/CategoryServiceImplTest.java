@@ -1,5 +1,6 @@
 package es.eshop.app.serviceImplTest;
 
+import es.eshop.app.BaseConfigTests;
 import es.eshop.app.entity.Category;
 import es.eshop.app.entity.Language;
 import es.eshop.app.entity.TranslationCategory;
@@ -25,8 +26,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-@SpringBootTest
-class CategoryServiceImplTest {
+
+class CategoryServiceImplTest extends BaseConfigTests {
 
     private final Long ID = 1L;
 

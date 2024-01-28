@@ -3,8 +3,7 @@ package es.eshop.app;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class AppApplicationTests {
+class AppApplicationTests  extends BaseConfigTests{
 
 	@Test
 	void contextLoads() {

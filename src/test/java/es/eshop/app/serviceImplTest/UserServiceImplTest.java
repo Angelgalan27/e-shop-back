@@ -1,5 +1,6 @@
 package es.eshop.app.serviceImplTest;
 
+import es.eshop.app.BaseConfigTests;
 import es.eshop.app.entity.User;
 import es.eshop.app.exception.BadRequestException;
 import es.eshop.app.exception.ForbbidenException;
@@ -26,9 +27,8 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class UserServiceImplTest {
+
+class UserServiceImplTest extends BaseConfigTests {
 
     private final Long ID = 1L;
 

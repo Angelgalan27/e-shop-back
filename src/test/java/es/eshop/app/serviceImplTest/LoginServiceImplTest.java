@@ -1,5 +1,6 @@
 package es.eshop.app.serviceImplTest;
 
+import es.eshop.app.BaseConfigTests;
 import es.eshop.app.model.LoginRequestDTO;
 import es.eshop.app.service.ILoginService;
 import es.eshop.app.service.IUserService;
@@ -20,9 +21,7 @@ import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class LoginServiceImplTest {
+class LoginServiceImplTest extends BaseConfigTests {
 
     private final String EMAIL = "EMAIL";
 
