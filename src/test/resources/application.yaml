@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:myDb;DB_CLOSE_DELAY=-1;NON_KEYWORDS=KEY,VALUE;INIT=RUNSCRIPT FROM 'classpath:/init.sql'
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: none
+  sql:
+    init:
+      data-locations:
+        - classpath:import.sql
+jwt:
+  secret:
+    key: 97
+  expiration: 3600
+
+aws:
+  accessKey: AK
+  secretKey: 60
+  region: eu-south-2
+  bucketName: test
